@@ -57,9 +57,13 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	float DamageApplied = FMath::Min(Health, DamageToApply);
 
 	Health -= DamageApplied;
-	UE_LOG(LogTemp, Error, TEXT("Health: %f"), Health);
+	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
 
 	return DamageApplied;
+}
+
+bool AShooterCharacter::IsDead() const {
+	return Health <= 0;
 }
 
 void AShooterCharacter::Shoot()

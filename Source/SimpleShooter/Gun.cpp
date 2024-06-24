@@ -49,7 +49,6 @@ void AGun::PullTrigger()
 		AActor* HitActor = Hit.GetActor();
 		if (HitActor != nullptr)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("te di perro"));
 			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
 			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
 		}
