@@ -17,6 +17,8 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Health = MaxHealth;
+
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
@@ -47,6 +49,17 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &AShooterCharacter::LookUpRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
+}
+
+float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	float DamageApplied = FMath::Min(Health, DamageToApply);
+
+	Health -= DamageApplied;
+	UE_LOG(LogTemp, Error, TEXT("Health: %f"), Health);
+
+	return DamageApplied;
 }
 
 void AShooterCharacter::Shoot()
