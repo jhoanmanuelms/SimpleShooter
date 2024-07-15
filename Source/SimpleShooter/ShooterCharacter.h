@@ -33,8 +33,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
-private:
 	void Shoot();
+
+private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
