@@ -2,6 +2,8 @@
 
 
 #include "ShooterCharacter.h"
+
+#include "Components/CapsuleComponent.h"
 #include "Gun.h"
 
 // Sets default values
@@ -58,6 +60,12 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 
 	Health -= DamageApplied;
 	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
+
+	if (IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	return DamageApplied;
 }
