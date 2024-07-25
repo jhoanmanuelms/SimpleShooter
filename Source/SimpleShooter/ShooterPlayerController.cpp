@@ -5,16 +5,31 @@
 #include "Blueprint/UserWidget.h"
 #include "TimerManager.h"
 
+void AShooterPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	HUD = AddWidget(HUDClass);
+}
+
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
 
-	TSubclassOf<class UUserWidget> ScreenClass = bIsWinner ? WinScreenClass : LoseScreenClass;
-	UUserWidget* Screen = CreateWidget(this, ScreenClass);
-	if (Screen != nullptr)
+	TSubclassOf<UUserWidget> EndGameWidgetClass = bIsWinner ? WinScreenClass : LoseScreenClass;
+
+	HUD->RemoveFromViewport();
+	AddWidget(EndGameWidgetClass);
+	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
+}
+
+UUserWidget* AShooterPlayerController::AddWidget(TSubclassOf<UUserWidget> WidgetClass)
+{
+	UUserWidget* Widget = CreateWidget(this, WidgetClass);
+	if (Widget != nullptr)
 	{
-		Screen->AddToViewport();
+		Widget->AddToViewport();
 	}
 
-	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
+	return Widget;
 }
