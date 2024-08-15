@@ -39,10 +39,17 @@ public:
 	void Shoot();
 
 private:
+	void SwapWeapon();
+	void SpawnWeapon();
+	void SetPrimaryWeapon();
+	void SetSecondaryWeapon();
+	void SwapWeapon(float AxisValue);
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
+
+	TSubclassOf<AGun> SelectedWeaponClass;
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 70;
@@ -54,7 +61,10 @@ private:
 	float Health;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGun> GunClass;
+	TSubclassOf<AGun> PrimaryWeaponClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGun> SecondaryWeaponClass;
 
 	UPROPERTY()
 	AGun* Gun;

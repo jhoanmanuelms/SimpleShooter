@@ -21,10 +21,20 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
+	SelectedWeaponClass = PrimaryWeaponClass;
+	SpawnWeapon();
+}
+
+void AShooterCharacter::SpawnWeapon()
+{
+	if (Gun != nullptr)
+	{
+		GetWorld()->DestroyActor(Gun);
+	}
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
-	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
+	Gun = GetWorld()->SpawnActor<AGun>(SelectedWeaponClass);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun->SetOwner(this);
 }
@@ -43,6 +53,11 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+
+	PlayerInputComponent->BindAxis(TEXT("SwapWeapon"), this, &AShooterCharacter::SwapWeapon);
+	PlayerInputComponent->BindAction(TEXT("SwapWeaponController"), EInputEvent::IE_Pressed, this, &AShooterCharacter::SwapWeapon);
+	PlayerInputComponent->BindAction(TEXT("PrimaryWeapon"), EInputEvent::IE_Pressed, this, &AShooterCharacter::SetPrimaryWeapon);
+	PlayerInputComponent->BindAction(TEXT("SecondaryWeapon"), EInputEvent::IE_Pressed, this, &AShooterCharacter::SetSecondaryWeapon);
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AShooterCharacter::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
@@ -90,6 +105,32 @@ float AShooterCharacter::GetHealthPercent() const
 void AShooterCharacter::Shoot()
 {
 	Gun->PullTrigger();
+}
+
+void AShooterCharacter::SwapWeapon()
+{
+	SelectedWeaponClass = (SelectedWeaponClass == PrimaryWeaponClass) ? SecondaryWeaponClass : PrimaryWeaponClass;
+	SpawnWeapon();
+}
+
+void AShooterCharacter::SwapWeapon(float AxisValue)
+{
+	if (AxisValue != 0)
+	{
+		SwapWeapon();
+	}
+}
+
+void AShooterCharacter::SetPrimaryWeapon()
+{
+	SelectedWeaponClass = PrimaryWeaponClass;
+	SpawnWeapon();
+}
+
+void AShooterCharacter::SetSecondaryWeapon()
+{
+	SelectedWeaponClass = SecondaryWeaponClass;
+	SpawnWeapon();
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)
