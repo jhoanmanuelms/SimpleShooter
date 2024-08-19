@@ -2,7 +2,6 @@
 
 
 #include "ShooterCharacter.h"
-
 #include "Components/CapsuleComponent.h"
 #include "Gun.h"
 #include "SimpleShooterGameModeBase.h"
@@ -27,6 +26,12 @@ void AShooterCharacter::BeginPlay()
 
 void AShooterCharacter::SpawnWeapon()
 {
+	// TODO montage blend space to change guns while moving
+	if (SwapWeaponMontage)
+	{
+		PlayAnimMontage(SwapWeaponMontage, 1, NAME_None);
+	}
+
 	if (Gun != nullptr)
 	{
 		GetWorld()->DestroyActor(Gun);
