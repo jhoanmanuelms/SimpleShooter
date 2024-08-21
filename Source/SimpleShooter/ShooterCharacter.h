@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
 
+	UFUNCTION(BlueprintPure)
+	int GetSelectedWeapon() const;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Anim)
 	class UAnimMontage *SwapWeaponMontage;
 

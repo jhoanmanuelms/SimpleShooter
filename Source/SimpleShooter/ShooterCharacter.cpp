@@ -102,6 +102,11 @@ bool AShooterCharacter::IsDead() const
 	return Health <= 0;
 }
 
+int AShooterCharacter::GetSelectedWeapon() const
+{
+	return (SelectedWeaponClass == PrimaryWeaponClass) ? 0 : 1;
+}
+
 float AShooterCharacter::GetHealthPercent() const
 {
 	return Health / MaxHealth;
