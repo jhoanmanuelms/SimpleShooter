@@ -16,6 +16,7 @@ public:
 	AGun();
 
 	void PullTrigger();
+	int GetAmmo() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,6 +50,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 12;
+
+	UPROPERTY(EditAnywhere)
+	int Ammo = 10;
 
 	AController* GetOwnerController() const;
 

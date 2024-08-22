@@ -62,11 +62,17 @@ bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 	return bHit;
 }
 
+int AGun::GetAmmo() const
+{
+	return Ammo;
+}
+
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
+	Ammo--;
 	FHitResult Hit;
 	FVector ShotDirection;
 	bool bHit = GunTrace(Hit, ShotDirection);

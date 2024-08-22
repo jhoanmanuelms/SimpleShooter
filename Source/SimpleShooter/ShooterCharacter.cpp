@@ -48,7 +48,6 @@ void AShooterCharacter::SpawnWeapon()
 void AShooterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -100,6 +99,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 bool AShooterCharacter::IsDead() const
 {
 	return Health <= 0;
+}
+
+int AShooterCharacter::GetAmmo() const
+{
+	return Gun->GetAmmo();
 }
 
 int AShooterCharacter::GetSelectedWeapon() const

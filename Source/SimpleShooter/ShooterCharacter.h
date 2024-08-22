@@ -34,6 +34,9 @@ public:
 	bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
+	int GetAmmo() const;
+
+	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
 
 	UFUNCTION(BlueprintPure)
