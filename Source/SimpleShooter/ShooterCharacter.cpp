@@ -12,7 +12,6 @@ AShooterCharacter::AShooterCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -24,11 +23,13 @@ void AShooterCharacter::BeginPlay()
 	Weapons[PRIMARY_WEAPON] = GetWorld()->SpawnActor<AGun>(PrimaryWeaponClass);
 	Weapons[SECONDARY_WEAPON] = GetWorld()->SpawnActor<AGun>(SecondaryWeaponClass);
 
-	SelectedWeapon = PRIMARY_WEAPON;
-	SpawnWeapon();
+	SpawnWeapon(PRIMARY_WEAPON);
+
+	// Hide unnecessary animation bone
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 }
 
-void AShooterCharacter::SpawnWeapon()
+void AShooterCharacter::SpawnWeapon(int WeaponIndex)
 {
 	// TODO montage blend space to change guns while moving
 	if (SwapWeaponMontage)
@@ -36,8 +37,7 @@ void AShooterCharacter::SpawnWeapon()
 		PlayAnimMontage(SwapWeaponMontage, 1, NAME_None);
 	}
 
-	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
-
+	SelectedWeapon = WeaponIndex;
 	Weapons[-SelectedWeapon]->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
 	Weapons[SelectedWeapon]->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Weapons[SelectedWeapon]->SetOwner(this);
@@ -116,8 +116,7 @@ void AShooterCharacter::Shoot()
 
 void AShooterCharacter::SwapWeapon()
 {
-	SelectedWeapon = -SelectedWeapon;
-	SpawnWeapon();
+	SpawnWeapon(-SelectedWeapon);
 }
 
 void AShooterCharacter::SwapWeapon(float AxisValue)
@@ -130,14 +129,12 @@ void AShooterCharacter::SwapWeapon(float AxisValue)
 
 void AShooterCharacter::SetPrimaryWeapon()
 {
-	SelectedWeapon = PRIMARY_WEAPON;
-	SpawnWeapon();
+	SpawnWeapon(PRIMARY_WEAPON);
 }
 
 void AShooterCharacter::SetSecondaryWeapon()
 {
-	SelectedWeapon = SECONDARY_WEAPON;
-	SpawnWeapon();
+	SpawnWeapon(SECONDARY_WEAPON);
 }
 
 void AShooterCharacter::MoveForward(float AxisValue)

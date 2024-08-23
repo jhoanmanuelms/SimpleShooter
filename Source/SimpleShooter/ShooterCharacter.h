@@ -49,9 +49,9 @@ private:
 	const int SECONDARY_WEAPON = -1;
 
 	void SwapWeapon();
-	void SpawnWeapon();
 	void SetPrimaryWeapon();
 	void SetSecondaryWeapon();
+	void SpawnWeapon(int WeaponIndex);
 	void SwapWeapon(float AxisValue);
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);

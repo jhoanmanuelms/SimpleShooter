@@ -44,7 +44,7 @@ private:
 	float Damage = 12;
 
 	UPROPERTY(EditAnywhere)
-	int Ammo = 10;
+	int Ammo = 20;
 
 	AController* GetOwnerController() const;
 
