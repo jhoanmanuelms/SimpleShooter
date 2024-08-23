@@ -2,6 +2,7 @@
 
 
 #include "ShooterCharacter.h"
+
 #include "Components/CapsuleComponent.h"
 #include "Gun.h"
 #include "SimpleShooterGameModeBase.h"
@@ -20,7 +21,10 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
-	SelectedWeaponClass = PrimaryWeaponClass;
+	Weapons[PRIMARY_WEAPON] = GetWorld()->SpawnActor<AGun>(PrimaryWeaponClass);
+	Weapons[SECONDARY_WEAPON] = GetWorld()->SpawnActor<AGun>(SecondaryWeaponClass);
+
+	SelectedWeapon = PRIMARY_WEAPON;
 	SpawnWeapon();
 }
 
@@ -32,22 +36,11 @@ void AShooterCharacter::SpawnWeapon()
 		PlayAnimMontage(SwapWeaponMontage, 1, NAME_None);
 	}
 
-	if (Gun != nullptr)
-	{
-		GetWorld()->DestroyActor(Gun);
-	}
-
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 
-	Gun = GetWorld()->SpawnActor<AGun>(SelectedWeaponClass);
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
-	Gun->SetOwner(this);
-}
-
-// Called every frame
-void AShooterCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	Weapons[-SelectedWeapon]->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+	Weapons[SelectedWeapon]->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	Weapons[SelectedWeapon]->SetOwner(this);
 }
 
 // Called to bind functionality to input
@@ -101,14 +94,14 @@ bool AShooterCharacter::IsDead() const
 	return Health <= 0;
 }
 
-int AShooterCharacter::GetAmmo() const
+int AShooterCharacter::GetAmmo()
 {
-	return Gun->GetAmmo();
+	return Weapons[SelectedWeapon]->GetAmmo();
 }
 
 int AShooterCharacter::GetSelectedWeapon() const
 {
-	return (SelectedWeaponClass == PrimaryWeaponClass) ? 0 : 1;
+	return (SelectedWeapon == PRIMARY_WEAPON) ? 0 : 1;
 }
 
 float AShooterCharacter::GetHealthPercent() const
@@ -118,12 +111,12 @@ float AShooterCharacter::GetHealthPercent() const
 
 void AShooterCharacter::Shoot()
 {
-	Gun->PullTrigger();
+	Weapons[SelectedWeapon]->PullTrigger();
 }
 
 void AShooterCharacter::SwapWeapon()
 {
-	SelectedWeaponClass = (SelectedWeaponClass == PrimaryWeaponClass) ? SecondaryWeaponClass : PrimaryWeaponClass;
+	SelectedWeapon = -SelectedWeapon;
 	SpawnWeapon();
 }
 
@@ -137,13 +130,13 @@ void AShooterCharacter::SwapWeapon(float AxisValue)
 
 void AShooterCharacter::SetPrimaryWeapon()
 {
-	SelectedWeaponClass = PrimaryWeaponClass;
+	SelectedWeapon = PRIMARY_WEAPON;
 	SpawnWeapon();
 }
 
 void AShooterCharacter::SetSecondaryWeapon()
 {
-	SelectedWeaponClass = SecondaryWeaponClass;
+	SelectedWeapon = SECONDARY_WEAPON;
 	SpawnWeapon();
 }
 

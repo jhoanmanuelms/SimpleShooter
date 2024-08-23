@@ -20,18 +20,6 @@ AGun::AGun()
 	Mesh->SetupAttachment(Root);
 }
 
-// Called when the game starts or when spawned
-void AGun::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void AGun::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 AController* AGun::GetOwnerController() const
 {
 	APawn* OwnerPawn = Cast<APawn>(GetOwner());

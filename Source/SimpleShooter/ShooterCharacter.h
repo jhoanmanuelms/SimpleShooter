@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <map>
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
@@ -17,24 +18,16 @@ public:
 	// Sets default values for this character's properties
 	AShooterCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	UFUNCTION(BlueprintPure)
-	bool IsDead() const;
+	int GetAmmo();
 
 	UFUNCTION(BlueprintPure)
-	int GetAmmo() const;
+	bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
@@ -47,7 +40,14 @@ public:
 
 	void Shoot();
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 private:
+	const int PRIMARY_WEAPON = 1;
+	const int SECONDARY_WEAPON = -1;
+
 	void SwapWeapon();
 	void SpawnWeapon();
 	void SetPrimaryWeapon();
@@ -58,7 +58,8 @@ private:
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
 
-	TSubclassOf<AGun> SelectedWeaponClass;
+	int SelectedWeapon;
+	std::map<int, AGun*> Weapons;
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 70;
@@ -74,7 +75,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> SecondaryWeaponClass;
-
-	UPROPERTY()
-	AGun* Gun;
 };
