@@ -57,28 +57,34 @@ int AGun::GetAmmo() const
 
 void AGun::PullTrigger()
 {
-	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
-	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
-
-	Ammo--;
-	FHitResult Hit;
-	FVector ShotDirection;
-	bool bHit = GunTrace(Hit, ShotDirection);
-
-	if (bHit)
+	if (Ammo > 0)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location, ShotDirection.Rotation());
+		UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+		UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
-		AActor* HitActor = Hit.GetActor();
-		if (HitActor != nullptr)
+		Ammo--;
+		FHitResult Hit;
+		FVector ShotDirection;
+		bool bHit = GunTrace(Hit, ShotDirection);
+
+		if (bHit)
 		{
-			AController* OwnerController = GetOwnerController();
-			if (OwnerController == nullptr) return;
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location, ShotDirection.Rotation());
 
-			FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
-			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
+			AActor* HitActor = Hit.GetActor();
+			if (HitActor != nullptr)
+			{
+				AController* OwnerController = GetOwnerController();
+				if (OwnerController == nullptr) return;
+
+				FPointDamageEvent DamageEvent(Damage, Hit, ShotDirection, nullptr);
+				HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
+			}
 		}
 	}
+	else
+	{
+		UGameplayStatics::SpawnSoundAttached(NoAmmoSound, Mesh, TEXT("MuzzleFlashSocket"));
+	}
 }
-
