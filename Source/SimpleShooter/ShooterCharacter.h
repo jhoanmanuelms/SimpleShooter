@@ -39,6 +39,7 @@ public:
 	class UAnimMontage *SwapWeaponMontage;
 
 	void Shoot();
+	void Heal(int Healing);
 
 protected:
 	// Called when the game starts or when spawned

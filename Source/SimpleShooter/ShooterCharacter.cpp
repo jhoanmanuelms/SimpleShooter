@@ -114,6 +114,11 @@ void AShooterCharacter::Shoot()
 	Weapons[SelectedWeapon]->PullTrigger();
 }
 
+void AShooterCharacter::Heal(int Healing)
+{
+	Health = std::min(MaxHealth, (Health + Healing));
+}
+
 void AShooterCharacter::SwapWeapon()
 {
 	SpawnWeapon(-SelectedWeapon);
