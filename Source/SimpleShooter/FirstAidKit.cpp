@@ -32,13 +32,9 @@ void AFirstAidKit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// TODO make it rotate vertically (check toon taks tower rotation)
-
-	// FRotator Rotation = GetActorRotation();
-	// FRotator NewRotation = FRotator(Rotation.Pitch + 1, Rotation.Yaw, Rotation.Roll);
-	// FQuat QuatRotation = FQuat(NewRotation);
-	
-	// AddActorLocalRotation(QuatRotation, false, 0, ETeleportType::None);
+	FRotator DeltaRotation = FRotator::ZeroRotator; 
+	DeltaRotation.Yaw = DeltaTime * TurnRate;
+	AddActorLocalRotation(DeltaRotation, true);
 }
 
 void AFirstAidKit::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

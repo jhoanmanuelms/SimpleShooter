@@ -36,6 +36,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Healing = 120;
 
+	UPROPERTY(EditAnywhere)
+	float TurnRate = 60.f;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
