@@ -114,6 +114,14 @@ void AShooterCharacter::Shoot()
 	Weapons[SelectedWeapon]->PullTrigger();
 }
 
+void AShooterCharacter::RechargeWeapons()
+{
+	for (auto& Weapon : Weapons)
+	{
+		Weapon.second->Recharge();
+	}
+}
+
 void AShooterCharacter::Heal(int Healing)
 {
 	Health = std::min(MaxHealth, (Health + Healing));

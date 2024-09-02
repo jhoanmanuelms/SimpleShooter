@@ -15,6 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	AGun();
 
+	void Recharge();
 	void PullTrigger();
 	int GetAmmo() const;
 
@@ -46,8 +47,11 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Damage = 12;
 
-	UPROPERTY(EditAnywhere)
-	int Ammo = 20;
+	UPROPERTY(EditDefaultsOnly)
+	int MaxAmmo = 20;
+
+	UPROPERTY(VisibleAnywhere)
+	int Ammo;
 
 	AController* GetOwnerController() const;
 

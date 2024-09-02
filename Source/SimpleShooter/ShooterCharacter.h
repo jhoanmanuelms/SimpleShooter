@@ -39,6 +39,7 @@ public:
 	class UAnimMontage *SwapWeaponMontage;
 
 	void Shoot();
+	void RechargeWeapons();
 	void Heal(int Healing);
 
 protected:

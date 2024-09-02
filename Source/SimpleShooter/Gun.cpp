@@ -19,6 +19,7 @@ AGun::AGun()
 
 	SetRootComponent(Root);
 	Mesh->SetupAttachment(Root);
+	Ammo = MaxAmmo;
 }
 
 AController* AGun::GetOwnerController() const
@@ -49,6 +50,11 @@ bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, CollisionParams);
 
 	return bHit;
+}
+
+void AGun::Recharge()
+{
+	Ammo = MaxAmmo;
 }
 
 int AGun::GetAmmo() const
