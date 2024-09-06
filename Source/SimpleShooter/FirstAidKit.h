@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "UtilityKit.h"
 #include "FirstAidKit.generated.h"
 
 UCLASS()
-class SIMPLESHOOTER_API AFirstAidKit : public AActor
+class SIMPLESHOOTER_API AFirstAidKit : public AUtilityKit
 {
 	GENERATED_BODY()
 	
@@ -16,29 +17,9 @@ public:
 	AFirstAidKit();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void KitEffect(class AShooterCharacter* Player) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* Root;
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Mesh;
-
-	UPROPERTY(EditAnywhere)
-	UParticleSystem* HealingFlash;
-
 	UPROPERTY(EditAnywhere)
 	float Healing = 120;
-
-	UPROPERTY(EditAnywhere)
-	float TurnRate = 60.f;
-
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
