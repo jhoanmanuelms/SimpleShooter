@@ -5,6 +5,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "Gun.h"
+#include "ShieldArmor.h"
 #include "SimpleShooterGameModeBase.h"
 
 // Sets default values
@@ -20,6 +21,7 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
+	ShieldArmor = GetWorld()->SpawnActor<AShieldArmor>(ShieldArmorClass);
 	Weapons[PRIMARY_WEAPON] = GetWorld()->SpawnActor<AGun>(PrimaryWeaponClass);
 	Weapons[SECONDARY_WEAPON] = GetWorld()->SpawnActor<AGun>(SecondaryWeaponClass);
 
@@ -68,6 +70,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
+	// TODO add shield logic
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	float DamageApplied = FMath::Min(Health, DamageToApply);
 
@@ -112,6 +115,16 @@ float AShooterCharacter::GetHealthPercent() const
 void AShooterCharacter::Shoot()
 {
 	Weapons[SelectedWeapon]->PullTrigger();
+}
+
+void AShooterCharacter::DeployShield(float Cover)
+{
+	// TODO Shield variable might not be needed
+	Shield = Cover;
+
+	// TODO Fix shield making character invisible
+	ShieldArmor->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("HoverAttachPoint"));
+	ShieldArmor->SetOwner(this);
 }
 
 void AShooterCharacter::RechargeWeapons()

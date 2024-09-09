@@ -8,6 +8,7 @@
 #include "ShooterCharacter.generated.h"
 
 class AGun;
+class AShieldArmor;
 
 UCLASS()
 class SIMPLESHOOTER_API AShooterCharacter : public ACharacter
@@ -41,6 +42,7 @@ public:
 	void Shoot();
 	void RechargeWeapons();
 	void Heal(int Healing);
+	void DeployShield(float Cover);
 
 protected:
 	// Called when the game starts or when spawned
@@ -61,6 +63,7 @@ private:
 	void LookRightRate(float AxisValue);
 
 	int SelectedWeapon;
+	AShieldArmor* ShieldArmor;
 	std::map<int, AGun*> Weapons;
 
 	UPROPERTY(EditAnywhere)
@@ -72,9 +75,15 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float Health;
 
+	UPROPERTY(VisibleAnywhere)
+	float Shield = 0;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> PrimaryWeaponClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> SecondaryWeaponClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AShieldArmor> ShieldArmorClass;
 };
