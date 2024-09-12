@@ -5,7 +5,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "Gun.h"
-#include "ShieldArmor.h"
+#include "Shield.h"
 #include "SimpleShooterGameModeBase.h"
 
 // Sets default values
@@ -72,9 +72,9 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	float DamageApplied = FMath::Min(Health, DamageToApply);
 
-	if (ShieldArmor != nullptr && ShieldArmor->GetCover() > 0)
+	if (Shield != nullptr && Shield->GetCover() > 0)
 	{
-		int RemainingDamage = ShieldArmor->AbsorbDamage(DamageApplied) * -1;
+		int RemainingDamage = Shield->AbsorbDamage(DamageApplied) * -1;
 		DamageApplied = (RemainingDamage < 0) ? 0 : RemainingDamage;
 	}
 
@@ -123,9 +123,9 @@ void AShooterCharacter::Shoot()
 
 void AShooterCharacter::DeployShield()
 {
-	ShieldArmor = GetWorld()->SpawnActor<AShieldArmor>(ShieldArmorClass);
-	ShieldArmor->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("HoverAttachPoint"));
-	ShieldArmor->SetOwner(this);
+	Shield = GetWorld()->SpawnActor<AShield>(ShieldClass);
+	Shield->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("HoverAttachPoint"));
+	Shield->SetOwner(this);
 }
 
 void AShooterCharacter::RechargeWeapons()

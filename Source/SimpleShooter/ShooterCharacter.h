@@ -8,7 +8,7 @@
 #include "ShooterCharacter.generated.h"
 
 class AGun;
-class AShieldArmor;
+class AShield;
 
 UCLASS()
 class SIMPLESHOOTER_API AShooterCharacter : public ACharacter
@@ -62,8 +62,8 @@ private:
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
 
+	AShield* Shield;
 	int SelectedWeapon;
-	AShieldArmor* ShieldArmor;
 	std::map<int, AGun*> Weapons;
 
 	UPROPERTY(EditAnywhere)
@@ -82,5 +82,5 @@ private:
 	TSubclassOf<AGun> SecondaryWeaponClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AShieldArmor> ShieldArmorClass;
+	TSubclassOf<AShield> ShieldClass;
 };

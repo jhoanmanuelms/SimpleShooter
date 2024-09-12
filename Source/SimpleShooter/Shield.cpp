@@ -2,14 +2,45 @@
 
 
 #include "Shield.h"
-#include "ShooterCharacter.h"
 
+// Sets default values
 AShield::AShield()
 {
-	// Default constructor
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+
+	SetRootComponent(Root);
+	Mesh->SetupAttachment(Root);
+	Cover = MaxCover;
 }
 
-void AShield::KitEffect(AShooterCharacter* Player)
+// Called when the game starts or when spawned
+void AShield::BeginPlay()
 {
-	Player->DeployShield();
+	Super::BeginPlay();
+	
+}
+
+// Called every frame
+void AShield::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+int AShield::GetCover() const
+{
+	return Cover;
+}
+
+int AShield::AbsorbDamage(int Damage)
+{
+	Cover -= Damage;
+
+	if (Cover < 0) Destroy();
+
+	return Cover;
 }

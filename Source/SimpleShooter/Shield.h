@@ -3,18 +3,39 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UtilityKit.h"
+#include "GameFramework/Actor.h"
 #include "Shield.generated.h"
 
 UCLASS()
-class SIMPLESHOOTER_API AShield : public AUtilityKit
+class SIMPLESHOOTER_API AShield : public AActor
 {
 	GENERATED_BODY()
-
-public:
+	
+public:	
+	// Sets default values for this actor's properties
 	AShield();
 
-// TODO Rename to ShieldKit
+	int GetCover() const;
+	int AbsorbDamage(int Damage);
+
 protected:
-	virtual void KitEffect(class AShooterCharacter* Player) override;
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* Root;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditDefaultsOnly)
+	int MaxCover = 100;
+
+	UPROPERTY(EditAnywhere)
+	int Cover;
 };
