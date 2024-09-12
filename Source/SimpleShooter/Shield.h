@@ -14,10 +14,7 @@ class SIMPLESHOOTER_API AShield : public AUtilityKit
 public:
 	AShield();
 
+// TODO Rename to ShieldKit
 protected:
 	virtual void KitEffect(class AShooterCharacter* Player) override;
-
-private:
-	UPROPERTY(EditAnywhere)
-	float Cover = 50;
 };

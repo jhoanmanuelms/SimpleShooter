@@ -36,7 +36,11 @@ int AShieldArmor::GetCover() const
 	return Cover;
 }
 
-void AShieldArmor::AbsorbDamage(int Damage)
+int AShieldArmor::AbsorbDamage(int Damage)
 {
 	Cover -= Damage;
+
+	if (Cover < 0) Destroy();
+
+	return Cover;
 }

@@ -21,7 +21,6 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
-	ShieldArmor = GetWorld()->SpawnActor<AShieldArmor>(ShieldArmorClass);
 	Weapons[PRIMARY_WEAPON] = GetWorld()->SpawnActor<AGun>(PrimaryWeaponClass);
 	Weapons[SECONDARY_WEAPON] = GetWorld()->SpawnActor<AGun>(SecondaryWeaponClass);
 
@@ -70,9 +69,14 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
-	// TODO add shield logic
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	float DamageApplied = FMath::Min(Health, DamageToApply);
+
+	if (ShieldArmor != nullptr && ShieldArmor->GetCover() > 0)
+	{
+		int RemainingDamage = ShieldArmor->AbsorbDamage(DamageApplied) * -1;
+		DamageApplied = (RemainingDamage < 0) ? 0 : RemainingDamage;
+	}
 
 	Health -= DamageApplied;
 	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
@@ -117,12 +121,9 @@ void AShooterCharacter::Shoot()
 	Weapons[SelectedWeapon]->PullTrigger();
 }
 
-void AShooterCharacter::DeployShield(float Cover)
+void AShooterCharacter::DeployShield()
 {
-	// TODO Shield variable might not be needed
-	Shield = Cover;
-
-	// TODO Fix shield making character invisible
+	ShieldArmor = GetWorld()->SpawnActor<AShieldArmor>(ShieldArmorClass);
 	ShieldArmor->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("HoverAttachPoint"));
 	ShieldArmor->SetOwner(this);
 }

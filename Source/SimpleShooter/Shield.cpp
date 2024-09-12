@@ -11,5 +11,5 @@ AShield::AShield()
 
 void AShield::KitEffect(AShooterCharacter* Player)
 {
-	Player->DeployShield(Cover);
+	Player->DeployShield();
 }

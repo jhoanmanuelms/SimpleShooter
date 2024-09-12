@@ -16,7 +16,7 @@ public:
 	AShieldArmor();
 
 	int GetCover() const;
-	void AbsorbDamage(int Damage);
+	int AbsorbDamage(int Damage);
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,6 +26,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+// TODO rename to Shield
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
@@ -34,7 +35,7 @@ private:
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditDefaultsOnly)
-	int MaxCover = 50;
+	int MaxCover = 100;
 
 	UPROPERTY(EditAnywhere)
 	int Cover;

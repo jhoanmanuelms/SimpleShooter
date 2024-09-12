@@ -40,9 +40,9 @@ public:
 	class UAnimMontage *SwapWeaponMontage;
 
 	void Shoot();
+	void DeployShield();
 	void RechargeWeapons();
 	void Heal(int Healing);
-	void DeployShield(float Cover);
 
 protected:
 	// Called when the game starts or when spawned
@@ -74,9 +74,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float Health;
-
-	UPROPERTY(VisibleAnywhere)
-	float Shield = 0;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> PrimaryWeaponClass;
