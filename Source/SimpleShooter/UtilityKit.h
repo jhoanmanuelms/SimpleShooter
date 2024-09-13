@@ -38,6 +38,9 @@ private:
 	UParticleSystem* ActivationFlash;
 
 	UPROPERTY(EditAnywhere)
+	USoundBase* ActivationSound;
+
+	UPROPERTY(EditAnywhere)
 	float TurnRate = 60.f;
 
 	UFUNCTION()

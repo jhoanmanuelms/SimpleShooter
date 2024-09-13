@@ -52,6 +52,7 @@ void AUtilityKit::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 	if (Player)
 	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ActivationSound, GetActorLocation(), GetActorRotation(), 1.f, 1.f, 1.f);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ActivationFlash, GetActorLocation(), GetActorRotation());
 		KitEffect(Player);
 		Destroy();
