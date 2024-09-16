@@ -76,6 +76,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	{
 		int RemainingDamage = Shield->AbsorbDamage(DamageApplied) * -1;
 		DamageApplied = (RemainingDamage < 0) ? 0 : RemainingDamage;
+
+		if (DamageApplied > 0)
+		{
+			Shield->Destroy();
+		}
 	}
 
 	Health -= DamageApplied;

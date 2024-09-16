@@ -31,7 +31,5 @@ float AShield::AbsorbDamage(int Damage)
 {
 	Cover -= Damage;
 
-	if (Cover < 0) Destroy();
-
 	return Cover;
 }
