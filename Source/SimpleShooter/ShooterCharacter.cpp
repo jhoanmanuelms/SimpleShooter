@@ -103,7 +103,7 @@ bool AShooterCharacter::IsDead() const
 
 bool AShooterCharacter::HasShield() const
 {
-	return Shield != nullptr;
+	return Shield != nullptr && Shield->GetCover() > 0;
 }
 
 int AShooterCharacter::GetAmmo()
@@ -123,7 +123,6 @@ float AShooterCharacter::GetHealthPercent() const
 
 float AShooterCharacter::GetShieldPercent() const
 {
-	// return (Shield != nullptr) ? Shield->GetCoverPercent() : 0;
 	return Shield->GetCoverPercent();
 }
 
