@@ -101,6 +101,11 @@ bool AShooterCharacter::IsDead() const
 	return Health <= 0;
 }
 
+bool AShooterCharacter::HasShield() const
+{
+	return Shield != nullptr;
+}
+
 int AShooterCharacter::GetAmmo()
 {
 	return Weapons[SelectedWeapon]->GetAmmo();
@@ -114,6 +119,12 @@ int AShooterCharacter::GetSelectedWeapon() const
 float AShooterCharacter::GetHealthPercent() const
 {
 	return Health / MaxHealth;
+}
+
+float AShooterCharacter::GetShieldPercent() const
+{
+	// return (Shield != nullptr) ? Shield->GetCoverPercent() : 0;
+	return Shield->GetCoverPercent();
 }
 
 void AShooterCharacter::Shoot()

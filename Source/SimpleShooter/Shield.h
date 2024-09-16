@@ -15,8 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	AShield();
 
-	int GetCover() const;
-	int AbsorbDamage(int Damage);
+	float GetCover() const;
+	float GetCoverPercent() const;
+	float AbsorbDamage(int Damage);
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -26,8 +27,8 @@ private:
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditDefaultsOnly)
-	int MaxCover = 100;
+	float MaxCover = 100;
 
 	UPROPERTY(EditAnywhere)
-	int Cover;
+	float Cover;
 };

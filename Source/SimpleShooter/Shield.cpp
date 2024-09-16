@@ -17,14 +17,22 @@ AShield::AShield()
 	Cover = MaxCover;
 }
 
-int AShield::GetCover() const
+float AShield::GetCover() const
 {
 	return Cover;
 }
 
-int AShield::AbsorbDamage(int Damage)
+float AShield::GetCoverPercent() const
+{
+	float percent = Cover / MaxCover;
+
+	return percent;
+}
+
+float AShield::AbsorbDamage(int Damage)
 {
 	Cover -= Damage;
+	UE_LOG(LogTemp, Display, TEXT("cover: %i"), Cover);
 
 	if (Cover < 0) Destroy();
 

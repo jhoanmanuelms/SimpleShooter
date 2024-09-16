@@ -28,10 +28,16 @@ public:
 	int GetAmmo();
 
 	UFUNCTION(BlueprintPure)
+	bool HasShield() const;
+
+	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetShieldPercent() const;
 
 	UFUNCTION(BlueprintPure)
 	int GetSelectedWeapon() const;
