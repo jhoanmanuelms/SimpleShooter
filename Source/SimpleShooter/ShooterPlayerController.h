@@ -15,6 +15,14 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintPure)
+	float GetBestTime() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetGameTime() const;
+
+	virtual void Tick(float DeltaTime) override;
+
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
 protected:
@@ -32,6 +40,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float RestartDelay = 5;
+
+	UPROPERTY(VisibleAnywhere)
+	float BestTime = 0;
+
+	UPROPERTY(VisibleAnywhere)
+	float GameTime = 0;
 
 	UPROPERTY()
 	class UUserWidget* HUD;

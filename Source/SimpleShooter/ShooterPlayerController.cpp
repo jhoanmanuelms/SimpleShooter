@@ -12,6 +12,21 @@ void AShooterPlayerController::BeginPlay()
 	HUD = AddWidget(HUDClass);
 }
 
+void AShooterPlayerController::Tick(float DeltaTime)
+{
+	GameTime += DeltaTime;
+}
+
+float AShooterPlayerController::GetBestTime() const
+{
+	return BestTime;
+}
+
+float AShooterPlayerController::GetGameTime() const
+{
+	return GameTime;
+}
+
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
@@ -21,6 +36,8 @@ void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 	HUD->RemoveFromViewport();
 	AddWidget(EndGameWidgetClass);
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
+	BestTime = GameTime;
+	GameTime = 0;
 }
 
 UUserWidget* AShooterPlayerController::AddWidget(TSubclassOf<UUserWidget> WidgetClass)
