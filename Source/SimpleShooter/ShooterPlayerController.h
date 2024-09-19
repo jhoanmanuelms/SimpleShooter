@@ -14,10 +14,6 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
-	UFUNCTION(BlueprintPure)
-	float GetBestTime() const;
-
 	UFUNCTION(BlueprintPure)
 	float GetGameTime() const;
 
@@ -42,9 +38,6 @@ private:
 	float RestartDelay = 5;
 
 	UPROPERTY(VisibleAnywhere)
-	float BestTime = 0;
-
-	UPROPERTY(VisibleAnywhere)
 	float GameTime = 0;
 
 	UPROPERTY()
@@ -53,4 +46,6 @@ private:
 	FTimerHandle RestartTimer;
 
 	class UUserWidget* AddWidget(TSubclassOf<class UUserWidget> WidgetClass);
+
+	void SetBestTime();
 };
