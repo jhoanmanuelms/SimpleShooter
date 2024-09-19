@@ -16,6 +16,7 @@ void AShooterPlayerController::BeginPlay()
 
 void AShooterPlayerController::Tick(float DeltaTime)
 {
+	// TODO use a timer instead of the delta time
 	GameTime += DeltaTime;
 }
 
@@ -53,7 +54,7 @@ void AShooterPlayerController::SetBestTime()
 {
 	USimpleShooterGameInstance* GameInstance = Cast<USimpleShooterGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if (GameInstance != nullptr && GameInstance->GetBestTime() == 0 || GameTime < GameInstance->GetBestTime())
+	if (GameInstance != nullptr && !GameInstance->IsBestTimeSet() || GameTime < GameInstance->GetBestTime())
 	{
 		GameInstance->SetBestTime(GameTime);
 	}

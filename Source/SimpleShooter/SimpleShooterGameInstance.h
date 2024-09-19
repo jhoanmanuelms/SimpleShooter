@@ -13,6 +13,9 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetBestTime() const;
 
+	UFUNCTION(BlueprintPure)
+	bool IsBestTimeSet() const;
+
 	void SetBestTime(float fBestTime);
 
 private:
