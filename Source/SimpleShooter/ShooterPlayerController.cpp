@@ -14,15 +14,9 @@ void AShooterPlayerController::BeginPlay()
 	HUD = AddWidget(HUDClass);
 }
 
-void AShooterPlayerController::Tick(float DeltaTime)
-{
-	// TODO use a timer instead of the delta time
-	GameTime += DeltaTime;
-}
-
 float AShooterPlayerController::GetGameTime() const
 {
-	return GameTime;
+	return UGameplayStatics::GetRealTimeSeconds(GetWorld());
 }
 
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)
@@ -32,9 +26,8 @@ void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
 	TSubclassOf<UUserWidget> EndGameWidgetClass = bIsWinner ? WinScreenClass : LoseScreenClass;
 
 	if (bIsWinner) SetBestTime();
-	GameTime = 0;
 
-	HUD->RemoveFromViewport();
+	HUD->RemoveFromParent();
 	AddWidget(EndGameWidgetClass);
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
 }
@@ -52,6 +45,7 @@ UUserWidget* AShooterPlayerController::AddWidget(TSubclassOf<UUserWidget> Widget
 
 void AShooterPlayerController::SetBestTime()
 {
+	float GameTime = UGameplayStatics::GetRealTimeSeconds(GetWorld());
 	USimpleShooterGameInstance* GameInstance = Cast<USimpleShooterGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	if (GameInstance != nullptr && !GameInstance->IsBestTimeSet() || GameTime < GameInstance->GetBestTime())
