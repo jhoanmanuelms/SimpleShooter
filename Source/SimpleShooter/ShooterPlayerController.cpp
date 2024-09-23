@@ -14,9 +14,12 @@ void AShooterPlayerController::BeginPlay()
 	HUD = AddWidget(HUDClass);
 }
 
-float AShooterPlayerController::GetGameTime() const
+FString AShooterPlayerController::GetGameTime() const
 {
-	return UGameplayStatics::GetRealTimeSeconds(GetWorld());
+	float GameTime = UGameplayStatics::GetRealTimeSeconds(GetWorld());
+	FTimespan TimeSpan = FTimespan(0, 0, GameTime);
+
+	return TimeSpan.ToString(TEXT("%m:%s"));
 }
 
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)

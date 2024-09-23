@@ -10,8 +10,10 @@ class SIMPLESHOOTER_API USimpleShooterGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintPure)
 	float GetBestTime() const;
+
+	UFUNCTION(BlueprintPure)
+	FString GetFormattedBestTime() const;
 
 	UFUNCTION(BlueprintPure)
 	bool IsBestTimeSet() const;

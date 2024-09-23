@@ -15,7 +15,7 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 	GENERATED_BODY()
 
 	UFUNCTION(BlueprintPure)
-	float GetGameTime() const;
+	FString GetGameTime() const;
 
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
