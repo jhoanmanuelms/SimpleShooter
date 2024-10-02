@@ -14,7 +14,9 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+	UFUNCTION(BlueprintPure)
+	FString GetGameTime() const;
+
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
 protected:
@@ -39,4 +41,6 @@ private:
 	FTimerHandle RestartTimer;
 
 	class UUserWidget* AddWidget(TSubclassOf<class UUserWidget> WidgetClass);
+
+	void SetBestTime();
 };

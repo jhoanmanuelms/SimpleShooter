@@ -3,6 +3,8 @@
 #include "ShooterPlayerController.h"
 
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "SimpleShooterGameInstance.h"
 #include "TimerManager.h"
 
 void AShooterPlayerController::BeginPlay()
@@ -12,13 +14,23 @@ void AShooterPlayerController::BeginPlay()
 	HUD = AddWidget(HUDClass);
 }
 
+FString AShooterPlayerController::GetGameTime() const
+{
+	float GameTime = UGameplayStatics::GetRealTimeSeconds(GetWorld());
+	FTimespan TimeSpan = FTimespan(0, 0, GameTime);
+
+	return TimeSpan.ToString(TEXT("%m:%s"));
+}
+
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)
 {
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
 
 	TSubclassOf<UUserWidget> EndGameWidgetClass = bIsWinner ? WinScreenClass : LoseScreenClass;
 
-	HUD->RemoveFromViewport();
+	if (bIsWinner) SetBestTime();
+
+	HUD->RemoveFromParent();
 	AddWidget(EndGameWidgetClass);
 	GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
 }
@@ -32,4 +44,15 @@ UUserWidget* AShooterPlayerController::AddWidget(TSubclassOf<UUserWidget> Widget
 	}
 
 	return Widget;
+}
+
+void AShooterPlayerController::SetBestTime()
+{
+	float GameTime = UGameplayStatics::GetRealTimeSeconds(GetWorld());
+	USimpleShooterGameInstance* GameInstance = Cast<USimpleShooterGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (GameInstance != nullptr && !GameInstance->IsBestTimeSet() || GameTime < GameInstance->GetBestTime())
+	{
+		GameInstance->SetBestTime(GameTime);
+	}
 }
