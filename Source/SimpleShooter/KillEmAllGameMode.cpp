@@ -20,9 +20,7 @@ void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)
 {
 	Super::PawnKilled(PawnKilled);
 
-	EndGame(true);
-
-	/*APlayerController* PlayerController = Cast<APlayerController>(PawnKilled->GetController());
+	APlayerController* PlayerController = Cast<APlayerController>(PawnKilled->GetController());
 
 	if (PlayerController != nullptr)
 	{
@@ -37,5 +35,5 @@ void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)
 		}
 	}
 
-	EndGame(true);*/
+	EndGame(true);
 }
